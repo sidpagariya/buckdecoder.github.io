@@ -1,0 +1,66 @@
+<nav id="nav">
+	<ul class="nav navbar-nav navbar-right">
+    {% for d in site.data.nav %}
+    {% if d.subcategories != null %}
+    <li class="dropdown">
+	<a href="#">
+		{{ d.title }}
+		<i class="fa fa-angle-down"></i>
+	</a>
+    <ul class="dropdown-menu">
+    {% for subcategory in d.subcategories %}
+	    {% if subcategory.subsubcategories != null %}
+	    <li class="opener">
+			<a href="#">{{ subcategory.subtitle }}</a>
+	    <ul class="dropdown">
+	        {% for subsubcategory in subcategory.subsubcategories %}
+				{% if subsubcategory.subsubsubcategories != null %}
+				<li class="opener">
+					<a href="#">{{ subsubcategory.subsubtitle }}</a>
+				<ul class="dropdown">
+					{% for subsubsubcategory in subsubcategory.subsubsubcategories %}
+					<li>
+						<a href="{{ site.url }}/{{d.href}}/{{ subcategory.subhref }}/{{ subsubcategory.subsubhref }}/{{ subsubsubcategory.subsubsubhref }}.html">{{ subsubsubcategory.subsubsubtitle }}</a>
+					</li>
+					{% endfor %}
+				</ul>
+				{% else %}
+				<li>
+					{% if subsubcategory.subsubhref == "index" || subsubcategory.subsubhref == "" || subsubcategory.subsubhref == "/" %}
+					<a href="{{ site.url }}/">{{ subcategory.subsubtitle }}</a>
+					{% else %}
+					<a href="{{ site.url }}/{{ d.href }}/{{ subcategory.subhref }}/{{ subsubcategory.subsubhref }}.html">{{ subsubcategory.subsubtitle }}</a>
+					{% endif %}
+				{% endif %}
+				</li>
+			{% endfor %}
+	    </ul>
+	    {% else %}
+	    <li>
+	        {% if subcategory.subhref == "index" || subcategory.subhref == "" || subcategory.subhref == "/" %}
+	        <a href="{{ site.url }}/">{{ subcategory.subtitle }}</a>
+	        {% else %}
+	        <a href="{{ site.url }}/{{ d.href }}/{{ subcategory.subhref }}.html">{{ subcategory.subtitle }}</a>
+	        {% endif %}
+	    {% endif %}
+	    </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    {% if d.href == "index" || d.href == "" || d.href == "/" %}
+        {% assign navurl = '/' %}
+    {% else %}
+        {% assign navurl = '/' | append: d.href | append: '.html' %}
+    {% endif %}
+    <li {% if navurl == page.url %} class="active" {% endif %}>
+	{% if d.href == "index" || d.href == "" || d.href == "/" %}
+	<a href="{{ site.url }}/">{{ d.title }}</a>
+    {% else %}
+    <a href="{{ site.url }}/{{ d.href }}.html">{{ d.title }}</a>
+	{% endif %}
+    {% endif %}
+    </li>
+    {% endfor %}
+    <li><a href="{{ site.baseurl }}{{ site.url}}/#" class="button special icon fa-download">Download</a></li>
+    </ul>
+</nav>
