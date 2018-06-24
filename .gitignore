@@ -3,5 +3,5 @@ _site/
 .sass-cache/
 _sass/
 !.travis.yml
-
+.jekyll-metadata
 assets/.DS_Store
